@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY ./requirements/backend.txt .
 
+RUN apk add build-base
+
 RUN pip install --no-cache-dir -r backend.txt
 
 COPY . .
