@@ -12,8 +12,10 @@ RUN CGO_ENABLED=0 go build -v -o ./build/fizzbuzz .
 
 FROM scratch
 
-COPY --from=build /usr/src/app/build/fizzbuzz /app/fizzbuzz
+COPY --from=build /usr/src/app/templates/index.html ./templates/index.html
+
+COPY --from=build /usr/src/app/build/fizzbuzz ./fizzbuzz
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/app/fizzbuzz" ]
+ENTRYPOINT [ "./fizzbuzz" ]
