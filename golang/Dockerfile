@@ -1,6 +1,6 @@
 FROM golang:1.18-alpine as build
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY go.mod go.sum ./
 
@@ -8,13 +8,15 @@ RUN go mod download && go mod verify
 
 COPY . .
 
-RUN CGO_ENABLED=0 go build -v -o ./build/fizzbuzz .
+RUN CGO_ENABLED=0 go build -o ./build/fizzbuzz
 
-FROM scratch
+FROM gcr.io/distroless/static
 
-COPY --from=build /usr/src/app/templates/index.html ./templates/index.html
+WORKDIR /app
 
-COPY --from=build /usr/src/app/build/fizzbuzz ./fizzbuzz
+COPY --from=build /app/templates/index.html ./templates/index.html
+
+COPY --from=build /app/build/fizzbuzz ./fizzbuzz
 
 EXPOSE 8080
 
