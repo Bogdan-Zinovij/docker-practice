@@ -1,4 +1,4 @@
-FROM golang:1.18-alpine
+FROM golang:1.18-alpine as build
 
 WORKDIR /usr/src/app
 
@@ -8,8 +8,12 @@ RUN go mod download && go mod verify
 
 COPY . .
 
-RUN go build -v -o ./build/fizzbuzz .
+RUN CGO_ENABLED=0 go build -v -o ./build/fizzbuzz .
+
+FROM scratch
+
+COPY --from=build /usr/src/app/build/fizzbuzz /app/fizzbuzz
 
 EXPOSE 8080
 
-ENTRYPOINT [ "./build/fizzbuzz" ]
+ENTRYPOINT [ "/app/fizzbuzz" ]
