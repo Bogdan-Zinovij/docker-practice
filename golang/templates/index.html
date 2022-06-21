@@ -6,7 +6,7 @@
 <body>
     <form method="POST" action="/">
         <label for="query">Check your number: </label>
-        <input type="number", min="0" name="query" id="query"></input>
+        <input type="Number", min="0" name="query" id="query"></input>
         <input type="submit">
     </form>
     {{ if .Error }}<span style="color: red">{{ .Error }}{{ end }}
