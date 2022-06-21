@@ -10,7 +10,7 @@ COPY . .
 
 RUN CGO_ENABLED=0 go build -o ./build/fizzbuzz
 
-FROM gcr.io/distroless/static
+FROM gcr.io/distroless/static:debug
 
 WORKDIR /app
 
